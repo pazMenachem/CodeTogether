@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://<ENTER_NAME>:<ENTER_PASSWORD>@cluster0.jvd2aag.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret": "<ENTER_SECRET_TOKEN>"
+}
