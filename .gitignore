@@ -173,4 +173,7 @@ sketch
 .history
 .ionide
 
+### MongoDB ###
+Server/config/.default
+
 # End of https://www.toptal.com/developers/gitignore/api/node,react,visualstudiocode
