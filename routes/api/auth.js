@@ -8,6 +8,11 @@ const { check, validationResult } = require('express-validator/check');
 
 const User = require('../../models/User');
 
+/*
+@route GET api/auth
+@desc Get authenticated user's data
+@access Private
+*/
 router.get('/', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
@@ -19,12 +24,18 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+/*
+ @route    POST api/auth
+ @desc     Authenticate user & get token
+ @access   Public
+*/
 router.post('/', [
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password is required').exists()
 ], 
 async (req, res) => {
     const errors = validationResult(req);
+
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
@@ -39,7 +50,6 @@ async (req, res) => {
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
-
         if(!isMatch) {
             return res
             .status(400)
@@ -62,7 +72,6 @@ async (req, res) => {
                 res.json({ token });
             }
         );
-
 
     }
     catch(err) {
