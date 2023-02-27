@@ -5,15 +5,14 @@ import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
 import "../css/NavBar.css";
 
-
+//TODO
+//1. change logo. 3
+//2. change button display. 3
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to="/profiles">Developers</Link>
-      </li>
-      <li>
-        <Link to="/posts">Posts</Link>
+        <Link to="/project">Projects</Link>
       </li>
       <li>
         <Link to="/dashboard">
@@ -31,7 +30,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const guestLinks = (
     <ul>
-        <li><Link to="/profiles">Developers</Link></li>
+        <li><Link to="/project">Projects</Link></li>
         <li><Link to="/register">Register</Link></li>
         <li><Link to="/login">Login</Link></li>
       </ul>
@@ -40,7 +39,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   return (
     <nav className="navbar bg-dark">
       <h1>
-        <Link to="/"><i className="fas fa-code"></i> DevConnector</Link>
+        <Link to="/"><i className="fas fa-code"></i> CodeTogether </Link>
       </h1>
       { !loading && (<Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>) }
     </nav>

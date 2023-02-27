@@ -17,10 +17,6 @@ const PASSWORD = 'password';
 const SERVER_ERROR = 'server error';
 const MIN_PASSWORD_LENGTH = 6;
 
-//TODO
-/**
- * 1. Change user 
- */
 
 router.post('/', [
     check( NAME, 'Name is required').not().isEmpty(),
@@ -42,16 +38,9 @@ async (req, res) => {
             return res.status(400).json({ errors: [{msg: USER_ALREADY_EXISTS_ERROR }]});
         }
 
-        const avatar = gravatar.url(email, {
-            s: '200',
-            r: 'pg',
-            d: 'mm'
-        });
-
         user = new User({
             name,
             email,
-            avatar,
             password
         });
 

@@ -1,0 +1,11 @@
+.thumbnails {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.img{
+    width: 200px;
+}

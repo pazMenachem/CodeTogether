@@ -1,0 +1,8 @@
+#cardLogin{
+    width: 50%;
+}
+
+#bodyLogin{
+    display: flex;
+    justify-content: center;
+}
