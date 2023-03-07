@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://paz_menach:thisispass123@cluster0.jvd2aag.mongodb.net/?retryWrites=true&w=majority",
-    "jwtSecret": "mysecrettoken"
-}
