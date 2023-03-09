@@ -1,58 +1,44 @@
-import React, { Fragment, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import {React, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import DashboardActions from './DashboardActions';
-import Experience from './Experience';
-import Education from './Education';
-import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import { Link } from 'react-router-dom';
+import Project from './Project';
 
-const Dashboard = ({ getCurrentProfile, deleteAccount, auth: { user }, profile: { profile } }) => {
-  useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
+//TODO
+//1. edit button remove fa-user / (change buttons - 3) 1
+//4. unvalid edit returns to the dashboard. 1
+//5. add the missing fields (add page). 1
+//6. fix the github link. 1
+//7. remove current project. 1
+//8. change add page submit buttons. 3
+//9. fix long description
 
+const Dashboard = ({ auth: { user }}) => {
   return (
     <section className="container">
-      <h1 className="large text-primary">Dashboard</h1>
+      <h1 className="h1 fw-bold ">Dashboard</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Welcome {user && user.name}
+        <i className="fas fa-user"/> Welcome {user && user.name}
       </p>
-      {profile !== null ? (
-        <Fragment>
-          <DashboardActions />
-          <Experience experience={profile.experience} />
-          <Education education={profile.education} />
+       <div className="dash-buttons">
+        <Link to="/add-project" className="btn btn-light">
+          <i className="fas fa-user-circle"></i> Add Project</Link>
+      </div>
+      <Fragment>
+        <Project/>
+      </Fragment>
 
-          <div className="my-2">
-            <button className="btn btn-danger" onClick={() => deleteAccount()}>
-              <i className="fas fa-user-minus" /> Delete My Account
-            </button>
-          </div>
-        </Fragment>
-      ) : (  
-        <Fragment>
-          <p>You have not yet setup a profile, please add some info</p>
-          <Link to="/create-profile" className="btn btn-primary my-1">
-            Create Profile
-          </Link>
-        </Fragment>
-      )}
     </section>
   );
 };
 
-
 Dashboard.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile
+  project: state.project,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

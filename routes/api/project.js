@@ -7,6 +7,7 @@ const Project = require('../../models/Project')
 const SERVER_ERROR = 'Server error'
 const DECENTING_ORDER = -1
 const ASCENDING_ORDER = 1
+const TITLE_MAX_LENGTH = 15
 
 /**
  * Route to get all projects sorted in descending order by date
@@ -19,7 +20,8 @@ const ASCENDING_ORDER = 1
  */
 router.get('/', async (req, res) => {
     try {
-        const projects = await Project.find().sort({date: -1});
+        const projects = await Project.find().sort({date: DECENTING_ORDER});
+
         res.json(projects)
     }
     catch(err){
@@ -27,6 +29,47 @@ router.get('/', async (req, res) => {
         res.status(500).send(SERVER_ERROR)
     }
 });
+
+/**
+ * Route to get all id user projects
+ * @route GET /api/projects/:id
+ * @returns JSON array of user projects
+ * @access Private
+ * 
+ * @throws 500 - Server error
+ * 
+ */
+router.get('/user/:id', async (req, res) => {
+    try {
+        const projects = await Project.find({user: req.params.id});
+        res.json(projects)
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send(SERVER_ERROR)
+    }
+});
+
+/**
+ * Route to get Project by project id.
+ * @route GET /api/projects/:id
+ * @returns JSON array of user projects
+ * @access Private
+ * 
+ * @throws 500 - Server error
+ * 
+ */
+router.get('/:id', async (req, res) => {
+    try {
+        let project = await Project.findById(req.params.id)
+        res.json(project)
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send(SERVER_ERROR)
+    }
+});
+
 
 /**
  * Create a new project
@@ -37,17 +80,29 @@ router.get('/', async (req, res) => {
  * 
  */
 router.post('/',
-[auth, check('title', 'Title is required').notEmpty()],
+           [check('githubLink', 'GithubLink is required').notEmpty(),
+            check('title').custom(async (value) => {;
+            if (!value || value.length > TITLE_MAX_LENGTH) throw new Error('Unvalid title length.');
+            return true;
+            }),
+            check('title').custom(async(value) => {
+            if (await Project.findOne({title: value })) throw new Error('Title name aleardy taken.');
+            return true;
+            }),
+           auth],
 async (req, res) => {
-
     const errors = validationResult(req);
     if(!errors.isEmpty()) 
         return res.status(400).json({ errors: errors.array() });
-    
+
     const { title,
             description, 
-            program_language, 
-            github_link 
+            programLanguage, 
+            githubLink,
+            difficult,
+            projectStartDate,
+            contactLink,
+            image,
           } = req.body;
 
     try{
@@ -55,8 +110,12 @@ async (req, res) => {
             user: req.user.id,
             title,
             description,
-            program_language,
-            github_link
+            programLanguage,
+            githubLink,
+            difficult,
+            projectStartDate,
+            contactLink,
+            image,
         });
 
         const project = await newProject.save();
@@ -69,8 +128,8 @@ async (req, res) => {
 });
 
 /**
- * Update a project by id
- * @route PUT api/projects/:id
+ * Update a project by title
+ * @route PUT api/projects/
  * @access Private
  * 
  * @throws {404} If the project with the specified id is not found
@@ -78,25 +137,50 @@ async (req, res) => {
  * @throws {500} If there is a server error
  *
  */
-router.put('/:id', auth, async (req, res) =>{
+router.put('/', 
+           [check('githubLink', 'GithubLink is required').notEmpty(),
+            check('title').custom(async (value) => {;
+                    if (!value || value.length > TITLE_MAX_LENGTH) throw new Error('Unvalid title length.');
+                    return true;
+                 }),
+            auth],
+            async (req, res) =>{
 
-  const projectFields = {};
-  if (req.body.title) projectFields.title = req.body.title;
-  if (req.body.description) projectFields.description = req.body.description;
-  if (req.body.program_language) projectFields.program_language = req.body.program_language;
-  if (req.body.github_link) projectFields.github_link = req.body.github_link;
+    const errors = validationResult(req);
+    if(!errors.isEmpty())
+        return res.status(400).json({ errors: errors.array() });
+    const {
+        title,
+        description,
+        programLanguage,
+        githubLink,
+        difficult,
+        projectStartDate,
+        contactLink,
+        image
+      } = req.body;
+    
+      const projectFields = {
+        title,
+        description,
+        programLanguage,
+        githubLink,
+        difficult,
+        projectStartDate,
+        contactLink,
+        image
+      };
 
   try{
-    let project = await Project.findById(req.params.id)
+    let project = await Project.findOne({ title: req.body.title })
 
     if(!project)
         return res.status(404).json({msg:'Project not found'});
 
     if(project.user.toString() !== req.user.id) 
         return res.status(401).json({msg:'User not authorized'});
-    
-    project = await Project.findByIdAndUpdate(
-        req.params.id,
+    project = await Project.findOneAndUpdate(
+        { title: req.body.title },
         { $set: projectFields},
         { new: true}
     );
@@ -110,7 +194,7 @@ router.put('/:id', auth, async (req, res) =>{
 
 /**
  * Update a project by id
- * @route PUT api/projects/:id
+ * @route Delete api/projects/:id
  * @access Private
  * 
  * @throws {404} If the project with the specified id is not found
@@ -133,6 +217,7 @@ router.delete('/:id', auth, async (req, res) =>{
       res.json({msg: "Project Removed"});
     }
     catch(err){
+    
       console.error(err.message);
       res.status(500).send(SERVER_ERROR);
     }

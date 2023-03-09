@@ -1,29 +1,29 @@
-import React, { Fragment, useEffect} from 'react';
+import React, { useEffect} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
-import Dashboard from './components/dashboard/Dashboard';
-import CreateProfile from './components/profile-forms/CreateProfile';
-import EditProfile from './components/profile-forms/EditProfile';
-import AddExperience from './components/profile-forms/AddExperience';
-import AddEducation from './components/profile-forms/AddEducation';
-import Profiles from './components/profiles/Profiles';
-import Profile from './components/profile/Profile';
-import Posts from './components/posts/Posts';
-import Post from './components/post/Post';
 import NotFound from './components/layout/NotFound';
+import Project from './components/layout/Project';
+import Dashboard from './components/dashboard/Dashboard';
+import AddProject from './components/dashboard/AddProject';
+import EditProject from './components/dashboard/EditProject';
 import PrivateRoute from './components/routing/PrivateRoute';
+import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
-import './App.css';
-
+//TODO
+// GENERAL NOTES
+// 1. organzise code - **at the end** .1
+// 2. Make report - **at the end** .1
+// 3. redux stats updated twice for some reason. 2
 const App = () => { 
     useEffect(() => {
         store.dispatch(loadUser());
@@ -39,27 +39,16 @@ const App = () => {
             <Navbar />
             <Alert />
             <Routes>
-                
                 <Route path="/" element={<Landing />} />
                 <Route path="register" element={<Register />} />
                 <Route path="login" element={<Login />} />
-                <Route path="profiles" element={<Profiles />} />
-                <Route path="profile/:id" element={<Profile />} />
-                
+                <Route path="project" element={<Project />} /> 
                 <Route path="dashboard" element={<PrivateRoute component={Dashboard} />}/>
-                <Route path="create-profile" element={<PrivateRoute component={CreateProfile} />} />
-                <Route path="edit-profile" element={<PrivateRoute component={EditProfile} />} />
-                <Route path="add-experience" element={<PrivateRoute component={AddExperience} />} />
-                <Route path="add-education" element={<PrivateRoute component={AddEducation} />} />
-                <Route path="posts" element={<PrivateRoute component={Posts} />} />
-                <Route path="posts/:id" element={<PrivateRoute component={Post} />} />
-
+                <Route path="add-project" element={<PrivateRoute component={AddProject} />} />
+                <Route path="edit-project" element={<PrivateRoute component={EditProject} />} />
                 <Route path="/*" element={<NotFound />} />
-                
-
             </Routes>
         </Provider>
 )};
-
 
 export default App;

@@ -1,13 +1,6 @@
 const mongoose = require('mongoose')
 
-// TODO
-/*
-1. gitlink should be required
-2. title should have validation of length
-3. program lang should have choosing options
-4. work on image
-5. Each title name should be unique
- */
+
 const ProjectSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,16 +13,26 @@ const ProjectSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    program_language: {
+    programLanguage: {
         type: String
     },
-    github_link: {
+    githubLink: {
         type: String
     },
     image: {
         type: String,
-        default: "Image"
-    }
+        default: null
+    },
+    difficult: {
+        type: Number,
+        default: 0,
+    },
+    projectStartDate: {
+        type: Date,
+    },
+    contactLink: {
+        type: String,
+    },
 })
 
 module.exports = mongoose.model('project', ProjectSchema);
