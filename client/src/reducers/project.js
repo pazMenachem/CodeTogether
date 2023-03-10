@@ -1,13 +1,15 @@
 import { LOAD_PROJECTS, 
          ADD_PROJECT,
          DELETE_PROJECT,
-         LOAD_PROJECTS_BY_ID
+         PROJECT_ERROR,
+         UPDATE_PROJECT,
         } from '../actions/types';
 
 const initialState = {
   items: [],
+  error: {}
 };
-//TODO fix reduce?. 2
+
 const projectReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_PROJECTS:
@@ -16,20 +18,22 @@ const projectReducer = (state = initialState, action) => {
         items: action.payload,
       };
     case ADD_PROJECT:
+    case UPDATE_PROJECT:  
       return {
         ...state,
         items: [...state.items, action.payload],
       };
-    // case LOAD_PROJECTS_BY_ID:
-    //   return {
-    //     ...state,
-    //     items: action.payload,
-    //   };
-      // case DELETE_PROJECT:
-      //   return {
-      //     ...state,
-      //     items: action.payload,
-      //   };
+
+    case DELETE_PROJECT:
+      return {
+        ...state,
+        item: action.payload
+      };
+    case PROJECT_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
     default:
       return state;
   }
