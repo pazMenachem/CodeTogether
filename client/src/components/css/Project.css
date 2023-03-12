@@ -12,7 +12,7 @@
     box-shadow: 0 0 5px rgba(222, 124, 124, 0.561);;
 }
 
-.title{
+.title-card{
     font-size: 1.25rem;
     font-weight: bold;
     text-align: center;
@@ -34,4 +34,20 @@
 
 .date{
     margin: 10px;
+}
+
+.card-text-scroll{
+    height: 150px !important;
+    overflow: scroll;
+    max-width: 23%;
+}
+
+.card-text{
+    height: 30px;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

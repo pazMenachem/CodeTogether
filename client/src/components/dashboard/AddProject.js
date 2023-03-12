@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addProject, getProjectById , editProject} from '../../actions/project';
+import {TextField, Box} from '@mui/material';
 
 
 const AddProject = ({ addProject, editProject, getProjectById }) => {
@@ -15,11 +16,10 @@ const AddProject = ({ addProject, editProject, getProjectById }) => {
       title:'',
       description:'',
       programLanguage:'',
-      date:'',
       githubLink: '',
-      // contactLink: project? project.title : '',
-      // image: project? project.title : null,
-      // current: project? project.title : false
+      contactLink: '',
+      image: null,
+      difficult: 0,
     },[]);
 
     useEffect(() => {
@@ -40,27 +40,26 @@ const AddProject = ({ addProject, editProject, getProjectById }) => {
           programLanguage: project.programLanguage || '',
           date: project.date || '',
           githubLink: project.githubLink || '',
+          difficult: project.difficult || '',
+          contactLink: project.contactLink || '',
         });
       }
     }, [project]);
 
-    const [toDateDisabled, toggleDisabled] = useState(false);
-
     const { title, 
             description,
             programLanguage, 
-            date, 
             difficult, 
             contactLink, 
             image, 
-            githubLink,
-            current } = formData;
+            githubLink
+          } = formData;
 
     const submit = async (e) => {
       e.preventDefault();
       try {
         if (edit){
-        editProject(formData);}
+        await editProject(formData);}
         else{
         await addProject(formData);}
         navigate('/dashboard');
@@ -77,9 +76,9 @@ const AddProject = ({ addProject, editProject, getProjectById }) => {
             onSubmit={submit}
           >
             <div className="form-group">
-              <input
-                type="text"
-                placeholder="The title of the project"
+              <TextField
+                label="Title" 
+                variant="outlined"
                 name="title"
                 value={title}
                 onChange={e => onChange(e)}
@@ -87,52 +86,68 @@ const AddProject = ({ addProject, editProject, getProjectById }) => {
               />
             </div>
             <div className="form-group">
-              <textarea
+              <TextField
+                fullWidth
+                multiline
+                maxRows={4}
+                label="Project Description" 
+                variant="outlined"
                 name="description"
-                cols="30"
                 rows="5"
-                placeholder="Project Description"
                 value={description}
                 onChange={e => onChange(e)}
               />
             </div>
-            <div className="form-group">
-              <input
-                type="text"
-                placeholder="Program Language"
+              <Box
+                  sx={{
+                    '& > :not(style)': { m: 1 },
+                  }}
+              >
+              <TextField
+                variant="outlined"
+                label="Program Language"
                 name="programLanguage"
                 value={programLanguage}
                 onChange={e => onChange(e)}
               />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                placeholder="Github URL"
+              <TextField
+                sx={{ width: '30%' }}
+                variant="outlined"
+                label="Github URL"
                 name="githubLink"
                 value={githubLink}
                 onChange={e => onChange(e)}
+                required
               />
-            </div>
-            <div className="form-group">
-              <h4>Start Date</h4>
-              <input type="date" name="date" value={date} onChange={e => onChange(e)} />
-            </div>
-            <div className="form-group">
-              <p>
-                <input
-                  type="checkbox"
-                  name="current"
-                  checked={current}
-                  value={current}
-                  onChange={e => {
-                    setFormData({ ...formData, current: !current });
-                    toggleDisabled(!toDateDisabled);
-                }}
-                />{' '}
-                Current project
-              </p>
-            </div>
+
+                <TextField
+                  variant="outlined"
+                  label="Contact Link"
+                  name="contactLink"
+                  value={contactLink}
+                  onChange={e => onChange(e)}
+                />
+                <TextField
+                sx={{ width: '8%' }}
+                variant="outlined"
+                label="Difficulty (1-5)"
+                name="difficult"
+                type="number"
+                inputProps={{ min: "1", max: "5", step: "1" }}
+                value={difficult}
+                onChange={e => onChange(e)}
+                />
+                <div>
+                  <TextField
+                    variant="outlined"
+                    label="Image link"
+                    name="image"
+                    value={image}
+                    onChange={e => onchange(e)}
+                  />
+                </div>
+            </Box>
+              
 
             <input type="submit" className="btn btn-dark my-1"/>
               <Link className="btn btn-dark my-1" to="/dashboard">

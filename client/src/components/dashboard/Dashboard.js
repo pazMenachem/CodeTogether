@@ -5,13 +5,8 @@ import { Link } from 'react-router-dom';
 import Project from './Project';
 
 //TODO
-//1. edit button remove fa-user / (change buttons - 3) 1
-//4. unvalid edit returns to the dashboard. 1
-//5. add the missing fields (add page). 1
-//6. fix the github link. 1
-//7. remove current project. 1
+//1. change buttons - 3
 //8. change add page submit buttons. 3
-//9. fix long description
 
 const Dashboard = ({ auth: { user }}) => {
   return (
