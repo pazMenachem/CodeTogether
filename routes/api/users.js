@@ -7,7 +7,6 @@ const config = require('config');
 const { check, validationResult } = require('express-validator/check');
 
 const User = require('../../models/User');
-const { JsonWebTokenError } = require('jsonwebtoken');
 
 const SECONDS_TO_EXPIRE = 36000;
 const USER_ALREADY_EXISTS_ERROR = 'User already exists';

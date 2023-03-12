@@ -13,6 +13,8 @@
     "bootstrap": "^5.2.3",
     "i": "^0.3.7",
     "mdb-react-ui-kit": "^5.1.0",
+    "mdb-ui-kit": "^6.2.0",
+    "mdbootstrap": "^4.20.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",

@@ -27,9 +27,6 @@ const ProjectSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    projectStartDate: {
-        type: Date,
-    },
     contactLink: {
         type: String,
     },

@@ -5,7 +5,6 @@ import { ADD_PROJECT,
          ADD_FAIL,
          DELETE_PROJECT,
          PROJECT_ERROR,
-         LOAD_PROJECTS_BY_ID,
          UPDATE_PROJECT,
          } from './types'
 
@@ -35,10 +34,6 @@ export const getProjectById = (id) => async (dispatch) => {
     console.error(error);
   }
 };
-  //   dispatch({
-  //     type: LOAD_PROJECTS_BY_ID,
-  //     payload: response.data,
-  //   });
 
 // Add Project 
 export const addProject = (formData) => async (dispatch) => {

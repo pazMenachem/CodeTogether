@@ -9,7 +9,6 @@ import NotFound from './components/layout/NotFound';
 import Project from './components/layout/Project';
 import Dashboard from './components/dashboard/Dashboard';
 import AddProject from './components/dashboard/AddProject';
-import EditProject from './components/dashboard/EditProject';
 import PrivateRoute from './components/routing/PrivateRoute';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -45,7 +44,6 @@ const App = () => {
                 <Route path="project" element={<Project />} /> 
                 <Route path="dashboard" element={<PrivateRoute component={Dashboard} />}/>
                 <Route path="add-project" element={<PrivateRoute component={AddProject} />} />
-                <Route path="edit-project" element={<PrivateRoute component={EditProject} />} />
                 <Route path="/*" element={<NotFound />} />
             </Routes>
         </Provider>
