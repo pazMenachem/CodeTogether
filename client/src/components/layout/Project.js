@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadProjects } from '../../actions/project';
 import PropTypes from 'prop-types';
-import defaultImage from "../../img/defaultProjectImage.png"
+import defaultImage from "../../static/defaultProjectImage.png"
 import "../css/Project.css";
 
 import { Grid,

@@ -1,6 +1,6 @@
 import React from "react";
-import PazImage from "../../img/Paz.png"
-import YaelImage from "../../img/Yael.png"
+import PazImage from "../../static/Paz.png"
+import YaelImage from "../../static/Yael.png"
 import "../css/Team.css";
 
 
@@ -10,10 +10,6 @@ const Team = () => {
       <div className="container">
         <div className="col-md-offset-2 section-title">
           <h2>Meet the Team</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-            dapibus leonec.
-          </p>
         </div>
 
         <div className="thumbnails">
