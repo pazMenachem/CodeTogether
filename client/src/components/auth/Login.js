@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import LoginImage from '../../img/Login.png'
+import LoginImage from '../../static/Login.png'
 import '../css/Login.css'
 import {
   MDBContainer,
