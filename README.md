@@ -29,7 +29,7 @@ A great platform for bridging the practical gap for students learning open-sourc
 5. Return to the project’s root directory and run the app:
    ```bash
    npm run dev
-6. The application will run on port 3000.
+6. The application will run on port 5000.
 
 ## Contributing
 
